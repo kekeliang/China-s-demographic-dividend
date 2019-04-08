@@ -1,0 +1,171 @@
+---
+title: "Is China's population dividends drifting away?"
+subtitle: "China's working-age population falls below 900 million for the first time, and what comes along are sluggish job growth and aging population"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = FALSE, message = FALSE, comment = "")
+```
+
+> Population Dividend/demographic dividend: 
+
+>1. The growth in an economy that is the resultant effect of a change in the age structure of a country¡¯s population. The change in age structure is typically brought on by a decline in fertility and mortality rates (Investopedia).
+
+>2. The society with more elderly and children has stronger consumer demand than labor productivity. On the contrary, if the proportion of young and middle-aged population is high in the society, the society will have higher production capacity than consumer demand. That the laborer's population is larger than that of consumer is regarded as an important indicator of the demographic dividend£¨Quoted from Peng Wensheng, chief global economist of China Everbright Securities£©.
+
+
+
+China has been known as the world¡¯s most populous country for decades. Its current population is about 1.42 billion. In the past 40 years, the demographic dividend has been one of the main factors driving China's economic development. From the 1950s to the 1970s, China had a period of time when the total fertility rate could reach about 5 on average. The number of newborns has increased significantly. Those newborns have gradually become the main source of labor force after the reform and opening up, providing sufficient labor for economic development.
+
+In addition, this generation does not have heavy burden of supporting the elderly. Their habit of saving provides a huge amount of capital accumulation for China's economic development over the past 40 years, enabling financial institutions to provide capital for commercial development. This is also an important role of the demographic dividend in the development of China. 
+
+Cai Wei, vice president of the Chinese Academy of Social Sciences, believes that since the reform and opening up, 27% of China's per capita GDP growth contributed from the demographic dividend (*from Q-Daily, a general newsroom in China*). 
+
+```{r, fig.cap="Figure 1: China population £¨1950-2019£©"}
+
+data <- read.csv("population.csv")
+data <- data[-1,]
+d <- data[,1:2]
+d[,2] <- as.numeric(gsub(",","",as.character(d[,2])))
+colnames(d)[1] <- "Year"
+library(plotly)
+
+d <- d[nrow(d):1,]
+library(lubridate)
+x <-  d$Year
+y <- d$Population
+p <- plot_ly(x = ~x, y = ~y, mode = 'lines', type="scatter", text = paste0("Year:",d$Year,",","Population:",rev(as.character(data$Population))))
+
+p %>% layout(title = "China population (1950-2019)",
+         xaxis = list(title = "Year"),
+         yaxis = list (title = "Population"))
+
+```
+
+
+According to a report released by Chinese Academy of Social Sciences (CASS), China¡¯s overall population will begin to shrink after 2027 , which is 3 years earlier than the U.S. projected before.
+
+```{r, fig.cap=" Figure 2: China population growth rate/Year £¨1950-2050)"}
+d <- data[,c(1,3)]
+d[,2] <- as.numeric(gsub("%","",as.character(d[,2])))
+colnames(d)[1] <- "Year"
+
+d <- d[nrow(d):1,]
+
+
+x <-  d$Year
+y <- d[,2]
+p <- plot_ly(x = ~x, y = ~y, mode = 'lines', type= "scatter", text = paste0("Year:",d$Year,",","Yearly change:",rev(as.character(data[,3]))))
+
+p %>% layout(title = "China population growth rate/Year (950-2050)",
+         xaxis = list(title = "Year"),
+         yaxis = list (title = "Proportion"))
+
+```
+
+Figure 1, Figure 2.  Data [http://www.worldometers.info/world-population/china-population/](http://www.worldometers.info/world-population/china-population/)
+
+
+At the end of 2018, the working-age population was about 897 million, a drop of 4.7 million from the end of 2017. The number of working-age population in China peaked in 2011 and has since declined. The net reduction in 2017 was the highest, reaching 5.48 million, and it was reduced by more than 26 million in the next seven years.
+
+At the same time, the number of elderly people over the age of 60 continues to increase, and the proportion of the elderly population in the total population in 2018 is 0.6% higher than last year.
+
+
+```{r,fig.cap="Figure 3: Working-age population declining Aging population increasing (1998-2017)"}
+data <- read.csv("proportion.csv",header = F)
+data <- data[nrow(data):1,]
+data2 <- read.csv("proportion2.csv",header = F)
+data2 <- data2[nrow(data2):1,]
+
+d <- data
+d[,2] <- as.numeric(gsub("%","",as.character(d[,2])))
+d2 <- data2
+d2[,2] <- as.numeric(gsub("%","",as.character(d2[,2])))
+
+d3 <- data.frame(year=d[,1],aging=d[,2],working=d2[,2])
+
+
+p <- plot_ly(d3, x = ~year, y = ~aging, name = "the proportion of aging population in total population",type = "scatter",  mode = 'lines', text = paste0("Year:",d[,1],",","proportion of aging population :",data[,2])) %>% add_trace( y = ~working,name = "the proportion of working-age population in total population", text = paste0("Year:",d[,1],",","proportion of working-age population :",data2[,2])) %>% 
+layout(title = "Working-age population declining Aging population increasing (1998-2017)",
+         xaxis = list(title = "Year"),
+         yaxis = list (title = "Proportion", range = c(0, 85)))
+p
+
+```
+
+
+Figure 3. Data [http://data.stats.gov.cn/easyquery.htm?cn=C01](http://data.stats.gov.cn/easyquery.htm?cn=C01)
+
+The number of newborns is decreasing, and the previous generation will gradually move into their older years. People's labor efficiency has now entered a period of time when the growth has been relatively stagnant, along with the declining working-age population, which means that China's ability to create wealth will also decline.
+
+The total number of births in china has dropped 17.23 million in 2017 to 15.23 million in 2018, which is over 10%.And all of this happened after China officially ended its decades-long one-child policy. Even if the population controls has been loosened, women in china are not willing to have more babies. More and more women in china, especially in china¡¯s urban areas are even putting off having children. There are multiple factors contributing to this phenomenon and the policy for illegitimate children is definitely one of the most important causes. 
+
+It has been difficult for illegitimate children to have legal Hukou, which is a basic identity for every Chinese citizen. And that is why many single women are not willing to have children as the present policies make them worry about their children¡¯s living conditions and their future. 
+
+> Hukou£ºHukou is a system of household registration in mainland China and Taiwan, although the system itself is more properly called "huji", and has origins in ancient China. A household registration record officially identifies a person as a resident of an area and includes identifying information such as name, parents, spouse, and date of birth. A hukou can also refer to a family register in many contexts since the household registration record (simplified Chinese: »§¿Ú²¾; traditional Chinese: ‘ô¿Ú²¾; pinyin: h¨´k¨¯u b¨´) is issued per family, and usually includes the births, deaths, marriages, divorces, and moves, of all members in the family £¨Wikipedia£©
+
+```{r,fig.cap="Figure 4: China marriage population and provincial policies toward illegitimate children"}
+
+
+data <- read.csv("marry.csv",header=FALSE)
+data <- data[,c(1,4,5)]
+colnames(data) <- c("Prov","Rate","Policy")
+data$Policy <- as.character(data$Policy)
+data$Prov <- as.character(data$Prov)
+
+
+
+```
+
+
+```{r, fig.width=7.8}
+library(raster)
+library(rgdal)
+library(leaflet)
+
+CN.map <- readOGR(dsn="bou2_4p.shp",layer="bou2_4p")
+projection(CN.map)<- CRS("+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs")
+
+CN.map$NAME2 <- CN.map$NAME
+
+a <- data$Prov[c(12,1,13,28,19,20,24,                                                           21,3,16,8,17,18,7,10,14,6,5,30,29,15,4,27,9,23,NA,2,26,NA,31,25,11,22)]
+
+names(a) <- levels(CN.map$NAME2)
+CN.map$NAME2 <- a[CN.map$NAME2]
+
+pos <- match(CN.map$NAME2, data$Prov)
+CN.map$Rate <- data$Rate[pos]
+CN.map$Policy <- data$Policy[pos]
+
+
+# Create a color palette for the map:
+mypalette = colorNumeric( palette="viridis", domain=CN.map$Rate, na.color="transparent")
+
+aa <- ifelse(nchar(CN.map$Policy) < 32, CN.map$Policy,
+             paste0(substr(CN.map$Policy,1,nchar(CN.map$Policy)/2),"-","<br/>",
+                    substr(CN.map$Policy,nchar(CN.map$Policy)/2 + 1,nchar(CN.map$Policy))))
+
+mytext=paste("Province: ", CN.map$NAME2,"<br/>", "Rate: ", CN.map$Rate, "<br/>", "Policy: ", aa, sep="") %>%
+  lapply(htmltools::HTML)
+
+leaflet(CN.map) %>% 
+  addTiles()  %>% 
+  setView( lat= 38, lng=106 , zoom=4) %>%
+
+addPolygons( 
+    fillColor = ~mypalette(Rate), stroke=TRUE, fillOpacity = 0.9, color="white", weight=0.3,
+    highlight = highlightOptions( weight = 5, color = ~colorNumeric("Blues", Rate)(Rate), dashArray = "", fillOpacity = 0.3, bringToFront = TRUE),
+    label = mytext,
+    labelOptions = labelOptions( style = list("font-weight" = "normal", padding = "3px 8px"), textsize = "13px", direction = "auto")
+  ) %>%
+  addLegend( pal=mypalette, values=~Rate, opacity=0.9, title = "Unmarried Proportion", position = "bottomright" )
+
+
+```
+
+
+From a more humanitarian perspective, entering an aging society has also increased the burden on everyone in this society. And the financial burden of supporting the elderly will also turn into people's mental stress.
+
+
+Follow me on Twitter @liang_keke/Youtube channel KEKE LIANG
